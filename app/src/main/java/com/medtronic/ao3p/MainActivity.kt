@@ -6,12 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -59,9 +57,25 @@ class MainActivity : AppCompatActivity() {
                 wifiList!!.add(data.SSID)
             }
 
-            val arrayAdapter: ArrayAdapter<*> = ArrayAdapter<Any?>(applicationContext, android.R.layout.simple_list_item_1, wifiList.toArray())
+            val arrayAdapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+                applicationContext,
+                android.R.layout.simple_list_item_1,
+                wifiList.toArray()
+            )
             wifiDeviceList!!.adapter = arrayAdapter
+
+            wifiDeviceList!!.onItemClickListener =
+                AdapterView.OnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+                    Log.d("Avijit", "$i - $l - ${wifiList[i]}")
+                    val deviceName = wifiList[i]
+                    val intent = Intent(this, WifiDetailActivity::class.java).apply {
+                        putExtra(EXTRA_MESSAGE, deviceName)
+                    }
+                    startActivity(intent)
+                }
         })
+
+
     }
 
     private fun scanFailure() {
