@@ -83,9 +83,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun scanSuccess() {
-        for (d in wifiList)
-            Log.d("Avijit", "$d")
-
 
     }
 }
